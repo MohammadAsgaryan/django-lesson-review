@@ -122,10 +122,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 # مسیر پوشه static پروژه (فقط در حالت توسعه)
 STATICFILES_DIRS = [
-    BASE_DIR / "static",  
+    BASE_DIR / "statics",  
 ]
 # مسیر نهایی برای جمع‌آوری استاتیک‌ها (فقط برای production)
-STATIC_ROOT = BASE_DIR / "statics"
+STATIC_ROOT = BASE_DIR / "static"
 
 # add media direciton:
 
