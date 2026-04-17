@@ -116,3 +116,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+# مسیر پوشه static پروژه (فقط در حالت توسعه)
+STATICFILES_DIRS = [
+    BASE_DIR / "static",  
+]
+# مسیر نهایی برای جمع‌آوری استاتیک‌ها (فقط برای production)
+STATIC_ROOT = BASE_DIR / "static"
+
+# add media direciton:
+
+# URL نمایش فایل‌های مدیا
+MEDIA_URL = '/media/'
+# مسیر ذخیره فایل‌های آپلود شده
+MEDIA_ROOT = BASE_DIR / "media"
