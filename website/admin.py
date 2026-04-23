@@ -1,5 +1,5 @@
 from django.contrib import admin
-from website.models import Contact
+from .models import Contact
 # Register your models here.
 
 class ContactAdmin(admin.ModelAdmin):
@@ -8,4 +8,4 @@ class ContactAdmin(admin.ModelAdmin):
     list_filter = ('email',)
     search_fields = ('name','message')
     
-admin.site.register(Contact, ContactAdmin)
+admin.site.register(Contact,ContactAdmin)
