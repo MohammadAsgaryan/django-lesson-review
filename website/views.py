@@ -3,6 +3,8 @@ from website.models import Contact
 from .forms import ContactModelform, NewslatterForm
 from django.http import HttpResponse,JsonResponse
 from django.http.response import HttpResponseRedirect
+from django.contrib import messages
+
 
 def index_view(request):
     return render(request, 'website/index.html')
@@ -15,6 +17,9 @@ def contact_view(request):
         form = ContactModelform(request.POST)
         if form.is_valid():
             form.save()
+            messages.add_message(request, messages.SUCCESS, 'your ticket is sibmited successfully')
+        else:
+            messages.add_message(request, messages.ERROR, 'your tiket didnt submited')
     form = ContactModelform()
     return render(request, 'website/contact.html', {'form': form})
     
@@ -22,7 +27,7 @@ def newslatter_view(request):
     if request.method=='POST':
         form = NewslatterForm(request.POST)
         if form.is_valid():
-            form.save()
+            form.save()            
             return HttpResponseRedirect('/')
     else:
         return HttpResponseRedirect('/')
