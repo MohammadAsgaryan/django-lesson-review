@@ -1,5 +1,5 @@
 {% load static %}
-
+{% load blog_tags %}
 
 <!DOCTYPE html>
 <html lang="zxx" class="no-js">
@@ -307,7 +307,7 @@
 
 						{% include 'blog/blog-writer.html' %}
 						
-						{% include 'blog/blog-popular-post.html' %}
+						{% latestposts %}
 
 						{% include 'blog/blog-ads.html' %}
 
