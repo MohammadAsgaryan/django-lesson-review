@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Contact
+from .models import Contact,Newslatter
 # Register your models here.
 
 class ContactAdmin(admin.ModelAdmin):
@@ -9,3 +9,4 @@ class ContactAdmin(admin.ModelAdmin):
     search_fields = ('name','message')
     
 admin.site.register(Contact,ContactAdmin)
+admin.site.register(Newslatter)
