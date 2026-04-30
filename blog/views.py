@@ -1,8 +1,10 @@
-from django.shortcuts import render,get_object_or_404
+from django.shortcuts import render,get_object_or_404,redirect
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 from .models import Post,Comment
 from blog.forms import CommentForm
 from django.contrib import messages
+from django.urls import reverse
+from django.http import HttpResponseRedirect
 
 # Create your views here.
 def blog_view(request,**kwargs):
@@ -23,11 +25,15 @@ def blog_view(request,**kwargs):
     return render(request,'blog/blog-home.html',context)
 
 def blog_single(request, pid):
-    post = get_object_or_404(Post, pk=pid, status=1)
-    comments = Comment.objects.filter(post=post.id, approved=True)
+    posts = Post.objects.filter(status=1)
+    post = get_object_or_404(posts, pk=pid)
 
-    form = CommentForm()   # فرم همیشه تعریف می‌شود
+    # check login requirement
+    if post.login_require and not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('accounts:login'))
 
+    # handle comment form
+    form = CommentForm()
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
@@ -36,9 +42,12 @@ def blog_single(request, pid):
         else:
             messages.add_message(request, messages.ERROR, 'your comment didnt submit')
 
-    posts = Post.objects.filter(status=1).order_by('created_date')
-    posts_list = list(posts)
+    # approved comments
+    comments = Comment.objects.filter(post=post.id, approved=True)
 
+    # previous and next posts
+    posts_ordered = Post.objects.filter(status=1).order_by('created_date')
+    posts_list = list(posts_ordered)
     current_index = posts_list.index(post)
 
     prev_post = None
@@ -52,10 +61,10 @@ def blog_single(request, pid):
 
     context = {
         'post': post,
-        'prev_post': prev_post,
-        'next_post': next_post,
         'comments': comments,
-        'form': form
+        'form': form,
+        'prev_post': prev_post,
+        'next_post': next_post
     }
 
     return render(request, 'blog/blog-single.html', context)

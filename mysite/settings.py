@@ -41,13 +41,13 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'website',
     'blog',
+    'accounts',
     'django.contrib.sites',
     'django.contrib.sitemaps',
     'robots',
     'taggit',
     'django_summernote',
     'captcha',
-    
 ]
 
 #site framework
