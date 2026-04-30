@@ -1,5 +1,5 @@
 from django import template
-from blog.models import Post,Category
+from blog.models import Comment, Post,Category
 from django.utils.html import strip_spaces_between_tags, strip_tags
 from django.utils.text import Truncator
 
@@ -11,6 +11,10 @@ register = template.Library()
 def latestposts(arg=3):
     posts = Post.objects.filter(status=1).order_by('published_date')[:arg]
     return {'posts':posts}
+
+@register.simple_tag(name='comments_count')
+def function(pid):
+    return Comment.objects.filter(post=pid,approved=True).count()
 
 @register.inclusion_tag('blog/blog-post-category.html')
 def postcategories():
